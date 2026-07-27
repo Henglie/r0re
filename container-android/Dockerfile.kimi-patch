@@ -1,0 +1,17 @@
+# 补丁镜像:基于已构建的 cairn-android-reverse,仅追加 kimi CLI + r0re 黑板 skill
+# (完整 Dockerfile 从头构建在本机网络下 apktool 层不稳定;此补丁复用已有层)
+FROM cairn-android-reverse:latest
+
+USER root
+# kimi 装到 /opt 并放开读权限:容器以 reverser 用户运行(健康检查非 root),/root 不可读
+RUN curl -fsSL https://code.kimi.com/kimi-code/install.sh | bash && \
+    mkdir -p /opt/kimi-code && cp -a /root/.kimi-code/bin /opt/kimi-code/bin && \
+    chmod -R a+rX /opt/kimi-code && \
+    ln -sf /opt/kimi-code/bin/kimi /usr/local/bin/kimi && \
+    su reverser -c '/usr/local/bin/kimi --version'
+
+COPY skills/r0re-blackboard /opt/r0re/skills/r0re-blackboard
+RUN chmod -R a+rX /opt/r0re
+
+USER reverser
+WORKDIR /home/reverser/workspace

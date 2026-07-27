@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "candidate",
+  "sample": {
+    "apk": "input/challenge.apk",
+    "sha256": "REPLACE_WITH_64_HEX"
+  },
+  "candidate": {
+    "app_input": "",
+    "displayed_flag": "",
+    "submit": ""
+  },
+  "solver": {
+    "command": [
+      "python3",
+      "scripts/solve.py",
+      "--json"
+    ],
+    "cwd": "."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "scripts/verify.py",
+      "--json"
+    ],
+    "cwd": ".",
+    "minimum_level": "V2"
+  },
+  "evidence": [
+    {
+      "id": "F1",
+      "claim": "Replace with decisive fact",
+      "artifact": "report.md"
+    }
+  ],
+  "decoys_rejected": [],
+  "notes": ""
+}

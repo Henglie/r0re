@@ -1,0 +1,27 @@
+server:
+  port: 8000
+
+spring:
+  datasource:
+    url: jdbc:sqlite:${R0RE_DATA_DIR:./datas/r0re}/r0re.db
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1
+      connection-init-sql: "PRAGMA foreign_keys = ON; PRAGMA busy_timeout = 5000; PRAGMA journal_mode = WAL;"
+  sql:
+    init:
+      mode: never
+
+r0re:
+  storage:
+    data-dir: ${R0RE_DATA_DIR:./datas/r0re}
+  dispatcher:
+    enabled: false
+    config: ${R0RE_DISPATCH_CONFIG:dispatch.yaml}
+    standalone-only: true
+  automation:
+    enabled: true
+    scheduler-interval-seconds: 60
+  completion:
+    require-verifier-for-completion: true
+    reverse-completion-policy: solver_or_verifier_required

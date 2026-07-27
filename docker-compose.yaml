@@ -1,0 +1,12 @@
+services:
+  r0re-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: r0re-app
+    container_name: r0re-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./datas/r0re/:/root/.local/share/r0re/
+    restart: unless-stopped

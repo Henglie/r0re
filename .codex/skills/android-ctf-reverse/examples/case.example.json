@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "case_id": "example",
+  "classification": [
+    "jni-native",
+    "runtime-token"
+  ],
+  "sample": {
+    "apk": "input/challenge.apk",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "runtime": {
+    "android_version": "",
+    "abi": "",
+    "package": "",
+    "token_changes_per_launch": true
+  },
+  "routes": {
+    "java_entry": "",
+    "jni_method": "",
+    "native_library": "",
+    "final_compare_or_generator": ""
+  }
+}

@@ -1,0 +1,68 @@
+# r0re dispatch config: Kimi worker, Android reverse engineering swarm mode.
+# Copy this file to dispatch.kimi.swarm.yaml and provide credentials through .env.
+
+server: "http://127.0.0.1:8001"
+
+common_env: {}
+
+runtime:
+  interval: 3
+  # Default tested setting: 3 workers. You can lower this to 1 or 2 on smaller machines.
+  max_workers: 3
+  max_running_projects: 1
+  max_project_workers: 3
+  healthcheck_timeout: 90
+  worker_healthcheck: "startup_only"
+  prompt_group: "android-reverse"
+  mode: "swarm"
+
+tasks:
+  bootstrap:
+    timeout: 1200
+    conclude_timeout: 180
+  reason:
+    timeout: 900
+    max_intents: 3
+  explore:
+    timeout: 1800
+    conclude_timeout: 180
+
+container:
+  image: "cairn-android-reverse:latest"
+  network_mode: "host"
+  completed_action: "stop"
+
+  volumes:
+    ${R0RE_WORKSPACE}/container-android/test_apk:
+      bind: "/home/reverser/workspace/test_apk"
+      mode: "ro"
+    ${R0RE_WORKSPACE}/output/live-analysis/{project_id}:
+      bind: "/home/reverser/workspace/analysis"
+      mode: "rw"
+    ${R0RE_WORKSPACE}/output/kimi-sessions/{project_id}:
+      bind: "/tmp/r0re-kimi"
+      mode: "rw"
+
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+  container_env:
+    ADB_SERVER_SOCKET: "tcp:host.docker.internal:5037"
+    FRIDA_HOST: "host.docker.internal:14725"
+    HOST_GATEWAY: "host.docker.internal"
+
+workers:
+  - name: "kimi_swarm"
+    type: "kimi"
+    task_types: [bootstrap, reason, explore]
+    max_running: 3
+    priority: 0
+    env:
+      KIMI_MODEL_NAME: "${KIMI_MODEL_NAME}"
+      KIMI_MODEL_PROVIDER_TYPE: "${KIMI_MODEL_PROVIDER_TYPE}"
+      KIMI_MODEL_BASE_URL: "${KIMI_MODEL_BASE_URL}"
+      KIMI_MODEL_API_KEY: "${KIMI_MODEL_API_KEY}"
+      KIMI_MODEL_MAX_CONTEXT_SIZE: "${KIMI_MODEL_MAX_CONTEXT_SIZE}"
+      KIMI_CODE_HOME: "/tmp/r0re-kimi"
+      KIMI_CODE_NO_AUTO_UPDATE: "1"
+      KIMI_DISABLE_TELEMETRY: "1"

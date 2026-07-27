@@ -1,0 +1,52 @@
+# Local OS / editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Build outputs
+build/
+.gradle/
+.gradle-user/
+out/
+__pycache__/
+*.py[cod]
+
+# Runtime state and analysis artifacts
+output/
+pulled/
+r0re-bb-test/
+r0re-e2e/
+
+# Local secrets and generated configs
+.env
+.env.*
+!/.env.example
+dispatch.kimi.swarm.yaml
+dispatch.*.local.yaml
+
+# Challenge samples and private data
+container-android/test_apk/
+test_apk/
+ctf/
+datas/
+*.apk
+*.xapk
+*.aab
+*.apks
+*.ipa
+
+# Keys and certificates
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.mobileprovision
+
+# Heavy prebuilt tool archives
+container-android/prebuilt/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
